@@ -31,11 +31,11 @@ def check():
     try:
         for payload in build_payoad():
             # inject in url
-            if check_header in dict(requests.get(url + '/' + payload).raw.headers).keys():
+            if check_header in dict(requests.get(url + '/' + payload, timeout=4).raw.headers).keys():
                 return resp(True)
             # inject in value of header
             for fuzz_header in fuzz_headers:
-                if check_header in dict(requests.get(url, headers={fuzz_header: payload}).raw.headers).keys():
+                if check_header in dict(requests.get(url, timeout=4, headers={fuzz_header: payload}).raw.headers).keys():
                     return resp(True)
     except Exception as ex:
         pass
